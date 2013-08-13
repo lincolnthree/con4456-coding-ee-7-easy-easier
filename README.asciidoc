@@ -1,0 +1,8 @@
+= CON4456 - Coding Java EE 7: Making Easy Even Easier
+
+== Speakers
+ * Arun Gupta
+ * Lincoln Baxter, III
+
+== Concept
+This talk and example set are designed to demonstrate the simplification of proprietary APIs by using standard Java EE 7 technologies.
