@@ -26,7 +26,7 @@ public class ChatServlet
    private List<ChatMessage> messageHistory = new ArrayList<ChatMessage>();
 
    @OnOpen
-   protected void onSocketOpened(Session socket) throws IOException
+   public void onSocketOpened(Session socket) throws IOException
    {
       log.log(Level.INFO, "Websocket opened: " + socket.getId());
       sockets.put(socket.getId(), socket);
@@ -38,7 +38,7 @@ public class ChatServlet
    }
 
    @OnMessage
-   protected void onMessageReceived(String text)
+   public void onMessageReceived(String text)
    {
       log.info("Got message " + text);
       ChatMessage message = new ChatMessage(System.currentTimeMillis(), text);
@@ -51,7 +51,7 @@ public class ChatServlet
    }
 
    @OnClose
-   protected void onSocketClosed(Session socket)
+   public void onSocketClosed(Session socket)
    {
       sockets.remove(socket.getId());
       log.info("Websocket closed [" + socket.getId() + "]");

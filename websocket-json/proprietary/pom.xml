@@ -24,7 +24,7 @@
       </dependency>
 
       <dependency>
-         <!-- WebSocket requires JBoss Event servlet and JBossWeb native dependency -->
+         <!-- WebSocket requires JBoss Event Servlet and JBossWeb native dependency -->
          <groupId>org.jboss.web</groupId>
          <artifactId>jbossweb</artifactId>
          <version>7.2.0.Final</version>
@@ -55,19 +55,6 @@
          <scope>provided</scope>
       </dependency>
 
-      <dependency>
-         <groupId>org.jboss.logging</groupId>
-         <artifactId>jboss-logging</artifactId>
-         <version>3.1.1.GA</version>
-         <scope>provided</scope>
-      </dependency>
-
-      <!-- some helpers -->
-      <dependency>
-         <groupId>org.apache.commons</groupId>
-         <artifactId>commons-lang3</artifactId>
-         <version>3.1</version>
-      </dependency>
       <dependency>
          <groupId>org.codehaus.jackson</groupId>
          <artifactId>jackson-core-asl</artifactId>
