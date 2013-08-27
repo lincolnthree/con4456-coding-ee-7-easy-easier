@@ -1,119 +1,121 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
    <modelVersion>4.0.0</modelVersion>
+
    <groupId>org.example.websocket</groupId>
-   <artifactId>websocket-proprietary</artifactId>
-   <packaging>war</packaging>
+   <artifactId>websocket-json-proprietary</artifactId>
    <version>1.0.0-SNAPSHOT</version>
-   <name>atmosphere-websocket-chat</name>
-   <url>http://maven.apache.org</url>
+
+   <packaging>war</packaging>
+   <name>WebSocket JSON - Proprietary</name>
 
    <properties>
-      <version.atmosphere>1.1.0.RC3</version.atmosphere>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <maven.compiler.source>1.7</maven.compiler.source>
-      <maven.compiler.target>1.7</maven.compiler.target>
    </properties>
 
    <dependencies>
+      <!-- Import the Common Annotations API (JSR-250), we use provided scope as the API is included in JBoss AS 7 -->
       <dependency>
-         <groupId>org.atmosphere</groupId>
-         <artifactId>atmosphere-runtime</artifactId>
-         <version>${version.atmosphere}</version>
+         <groupId>org.jboss.spec.javax.annotation</groupId>
+         <artifactId>jboss-annotations-api_1.1_spec</artifactId>
+         <version>1.0.1.Final</version>
+         <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+         <!-- WebSocket requires JBoss Event servlet and JBossWeb native dependency -->
+         <groupId>org.jboss.web</groupId>
+         <artifactId>jbossweb</artifactId>
+         <version>7.2.0.Final</version>
+         <scope>provided</scope>
       </dependency>
       <dependency>
-         <groupId>org.atmosphere.client</groupId>
-         <artifactId>jquery</artifactId>
-         <version>2.0.0.RC4</version>
-         <type>war</type>
+         <groupId>org.atmosphere.jboss.as</groupId>
+         <artifactId>jboss-as-websockets</artifactId>
+         <version>0.3</version>
+         <!-- 0.4 results in "Unrecognized Frames" -->
+         <exclusions>
+            <exclusion>
+               <groupId>org.slf4j</groupId>
+               <artifactId>slf4j-log4j12</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.slf4j</groupId>
+               <artifactId>slf4j-api</artifactId>
+            </exclusion>
+         </exclusions>
       </dependency>
+
+
       <dependency>
-         <groupId>org.slf4j</groupId>
-         <artifactId>slf4j-simple</artifactId>
-         <version>1.6.1</version>
+         <groupId>org.jboss.spec.javax.servlet</groupId>
+         <artifactId>jboss-servlet-api_3.0_spec</artifactId>
+         <version>1.0.1.Final</version>
+         <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+         <groupId>org.jboss.logging</groupId>
+         <artifactId>jboss-logging</artifactId>
+         <version>3.1.1.GA</version>
+         <scope>provided</scope>
+      </dependency>
+
+      <!-- some helpers -->
+      <dependency>
+         <groupId>org.apache.commons</groupId>
+         <artifactId>commons-lang3</artifactId>
+         <version>3.1</version>
       </dependency>
       <dependency>
          <groupId>org.codehaus.jackson</groupId>
-         <artifactId>jackson-mapper-asl</artifactId>
-         <version>1.9.3</version>
+         <artifactId>jackson-core-asl</artifactId>
+         <version>1.9.12</version>
       </dependency>
    </dependencies>
 
    <build>
+      <finalName>${project.artifactId}</finalName>
       <plugins>
          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
+            <groupId>org.jboss.as.plugins</groupId>
+            <artifactId>jboss-as-maven-plugin</artifactId>
+            <version>7.3.Final</version>
+            <configuration>
+               <filename>${project.build.finalName}.${project.packaging}</filename>
+            </configuration>
+         </plugin>
+         <plugin>
             <artifactId>maven-compiler-plugin</artifactId>
+            <version>2.4</version>
             <configuration>
                <source>1.6</source>
                <target>1.6</target>
                <encoding>UTF-8</encoding>
             </configuration>
          </plugin>
+         <plugin>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>2.4</version>
+            <configuration>
+               <failOnMissingWebXml>false</failOnMissingWebXml>
+            </configuration>
+         </plugin>
       </plugins>
    </build>
 
-   <profiles>
-      <profile>
-         <id>tomcat</id>
-         <dependencies>
-            <dependency>
-               <groupId>org.atmosphere</groupId>
-               <artifactId>atmosphere-runtime</artifactId>
-               <version>${project.version}</version>
-               <exclusions>
-                  <exclusion>
-                     <groupId>org.atmosphere</groupId>
-                     <artifactId>atmosphere-compat-tomcat</artifactId>
-                  </exclusion>
-               </exclusions>
-            </dependency>
-         </dependencies>
-         <build>
-            <plugins>
-               <plugin>
-                  <artifactId>maven-war-plugin</artifactId>
-                  <version>2.1.1</version>
-                  <configuration>
-                     <packagingExcludes>WEB-INF/context.xml,META-INF/context.xml</packagingExcludes>
-                  </configuration>
-               </plugin>
-            </plugins>
-         </build>
-      </profile>
-      <profile>
-         <id>jbossweb</id>
-         <dependencies>
-            <dependency>
-               <groupId>org.atmosphere</groupId>
-               <artifactId>atmosphere-runtime</artifactId>
-               <version>${version.atmosphere}</version>
-               <exclusions>
-                  <exclusion>
-                     <groupId>org.atmosphere</groupId>
-                     <artifactId>atmosphere-compat-jboss</artifactId>
-                  </exclusion>
-               </exclusions>
-            </dependency>
-            <dependency>
-               <groupId>org.atmosphere.jboss.as</groupId>
-               <artifactId>jboss-as-websockets</artifactId>
-               <version>0.5</version>
-            </dependency>
-         </dependencies>
-         <build>
-            <plugins>
-               <plugin>
-                  <artifactId>maven-war-plugin</artifactId>
-                  <version>2.1.1</version>
-                  <configuration>
-                     <packagingExcludes>WEB-INF/context.xml,META-INF/context.xml</packagingExcludes>
-                  </configuration>
-               </plugin>
-            </plugins>
-         </build>
-      </profile>
-   </profiles>
+   <repositories>
+      <repository>
+         <id>jboss-public-repository-group</id>
+         <url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+      </repository>
+   </repositories>
+   <pluginRepositories>
+      <pluginRepository>
+         <id>jboss-public-repository-group</id>
+         <url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+      </pluginRepository>
+   </pluginRepositories>
+
 </project>
