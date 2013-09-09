@@ -1,4 +1,4 @@
-package org.javaee7.samples.jta;
+package org.javaee7.samples.jpa;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -72,6 +72,6 @@ public class TestServlet extends HttpServlet
    @Override
    public String getServletInfo()
    {
-      return "JDBC Example Servlet";
+      return "JPA Example Servlet";
    }
 }

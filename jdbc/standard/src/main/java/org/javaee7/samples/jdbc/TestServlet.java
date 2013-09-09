@@ -1,4 +1,4 @@
-package org.javaee7.samples.jta;
+package org.javaee7.samples.jdbc;
 
 import java.io.IOException;
 import java.io.PrintWriter;
