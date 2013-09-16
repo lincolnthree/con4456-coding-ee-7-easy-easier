@@ -1,6 +1,6 @@
 .classpath
+.settings/
 .project
-.settings
 .DS_Store
 dependency-reduced-pom.xml
 target/
@@ -16,3 +16,4 @@ docs/reference/src/main/docbook/en-US/version_info.xml
 .factorypath
 atlassian-ide-plugin.xml
 .externalToolBuilders
+nb-configuration.xml
