@@ -4,6 +4,10 @@
    <persistence-unit name="default" transaction-type="JTA">
       <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
       <exclude-unlisted-classes>false</exclude-unlisted-classes>
+      <properties>
+         <property name="javax.persistence.schema-generation-action" value="create"/>
+         <property name="javax.persistence.schema-generation-target" value="database"/>
+      </properties>
    </persistence-unit>
 
 </persistence>
